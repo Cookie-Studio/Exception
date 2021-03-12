@@ -1,0 +1,9 @@
+{
+  "required": true,
+  "package": "me.method17.exception.injection.mixins",
+  "refmap": "mixins.exception.refmap.json",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "MixinMinecraft"
+  ]
+}

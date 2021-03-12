@@ -1,0 +1,16 @@
+[
+{
+  "modid": "exception",
+  "name": "Exception",
+  "description": "A minecraft hacked client for forge 1.8.9",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Method17"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
