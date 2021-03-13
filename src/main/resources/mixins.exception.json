@@ -4,6 +4,8 @@
   "refmap": "mixins.exception.refmap.json",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "MixinMinecraft"
+    "MixinMinecraft",
+    "MixinGuiSpectator",
+    "MixinGuiIngame"
   ]
 }

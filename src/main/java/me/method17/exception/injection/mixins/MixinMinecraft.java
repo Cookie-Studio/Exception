@@ -12,7 +12,9 @@
 package me.method17.exception.injection.mixins;
 
 import me.method17.exception.ExceptionClient;
+import me.method17.exception.ui.clickgui.ClickGUI;
 import me.method17.exception.utils.ClientUtil;
+import me.method17.exception.utils.RenderUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -32,6 +34,8 @@ public class MixinMinecraft{
     @Shadow
     public int displayHeight;
 
+    private boolean initialized=false;
+
     @Inject(method = "run", at = @At("HEAD"))
     private void init(CallbackInfo callbackInfo) {
         if (displayWidth < 1067){
@@ -40,20 +44,31 @@ public class MixinMinecraft{
         if (displayHeight < 622) {
             displayHeight = 622;
         }
-
-        new ExceptionClient();
+        if(!initialized){
+            new ExceptionClient();
+            initialized=true;
+        }
     }
 
     @Inject(method = "createDisplay", at = @At(value = "INVOKE", target = "Lorg/lwjgl/opengl/Display;setTitle(Ljava/lang/String;)V", shift = At.Shift.AFTER))
     private void createDisplay(CallbackInfo callbackInfo) {
-        Display.setTitle(ExceptionClient.CLIENT_NAME+" b"+ ExceptionClient.CLIENT_VERSION+" | "+(ExceptionClient.IN_DEV?"DEVELOPMENT BUILD":"by "+ ExceptionClient.CLIENT_CREATOR));
+        Display.setTitle(ExceptionClient.CLIENT_NAME+" b"+ ExceptionClient.CLIENT_VERSION+" "+(ExceptionClient.IN_DEV?"| DEVELOPMENT BUILD":"by "+ ExceptionClient.CLIENT_CREATOR));
+    }
+
+    @Inject(method = "startGame", at = @At(value = "FIELD", target = "Lnet/minecraft/client/Minecraft;ingameGUI:Lnet/minecraft/client/gui/GuiIngame;", shift = At.Shift.AFTER))
+    private void startGame(CallbackInfo ci) {
+        RenderUtil.init();
     }
 
     @Inject(method = "runTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Minecraft;dispatchKeypresses()V", shift = At.Shift.AFTER))
-    private void onKey(CallbackInfo ci) {
+    private void onKey(CallbackInfo callbackInfo) {
         if (Keyboard.getEventKeyState()){
             int code=Keyboard.getEventKey() == 0 ? Keyboard.getEventCharacter() + 256 : Keyboard.getEventKey();
-            ClientUtil.displayChatMessage("key="+Keyboard.getKeyName(code)+", code="+code);
+            String name=Keyboard.getKeyName(code);
+            ClientUtil.displayChatMessage("key="+name+", code="+code);
+            if(name.equalsIgnoreCase("RSHIFT")){
+                Minecraft.getMinecraft().displayGuiScreen(new ClickGUI());
+            }
         }
     }
 }
