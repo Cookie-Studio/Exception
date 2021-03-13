@@ -3,7 +3,6 @@ package me.method17.exception.utils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 public class RenderUtil {
@@ -12,7 +11,7 @@ public class RenderUtil {
     public static void init(){
         Minecraft mc=Minecraft.getMinecraft();
 //        YAK_FONT_RENDERER=Minecraft.getMinecraft().fontRendererObj;
-        YAK_FONT_RENDERER=new YAKFontRenderer(mc.gameSettings, new ResourceLocation("textures/font/yak.png"), mc.renderEngine, true);
+        YAK_FONT_RENDERER=new YAKFontRenderer(mc);
     }
 
     public static void drawText(String text,int width,int height,float size,boolean isMCFont){
