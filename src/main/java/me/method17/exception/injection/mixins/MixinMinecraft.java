@@ -1,9 +1,7 @@
 package me.method17.exception.injection.mixins;
 
 import me.method17.exception.ExceptionClient;
-import me.method17.exception.ui.clickgui.ClickGUI;
-import me.method17.exception.utils.ClientUtil;
-import me.method17.exception.utils.RenderUtil;
+import me.method17.exception.manager.EventManager;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -46,18 +44,13 @@ public class MixinMinecraft{
 
     @Inject(method = "startGame", at = @At(value = "FIELD", target = "Lnet/minecraft/client/Minecraft;ingameGUI:Lnet/minecraft/client/gui/GuiIngame;", shift = At.Shift.AFTER))
     private void startGame(CallbackInfo ci) {
-        RenderUtil.init();
+        ExceptionClient.getInstance().start();
     }
 
     @Inject(method = "runTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Minecraft;dispatchKeypresses()V", shift = At.Shift.AFTER))
     private void onKey(CallbackInfo callbackInfo) {
         if (Keyboard.getEventKeyState()){
-            int code=Keyboard.getEventKey() == 0 ? Keyboard.getEventCharacter() + 256 : Keyboard.getEventKey();
-            String name=Keyboard.getKeyName(code);
-            ClientUtil.displayChatMessage("key="+name+", code="+code);
-            if(name.equalsIgnoreCase("RSHIFT")){
-                Minecraft.getMinecraft().displayGuiScreen(new ClickGUI());
-            }
+            EventManager.handleKey(Keyboard.getEventKey() == 0 ? Keyboard.getEventCharacter() + 256 : Keyboard.getEventKey());
         }
     }
 }

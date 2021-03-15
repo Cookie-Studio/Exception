@@ -1,21 +1,26 @@
-package me.method17.exception.utils;
+package me.method17.exception.utils.render;
 
+import me.method17.exception.utils.ClientUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.texture.TextureUtil;
-import net.minecraft.util.ResourceLocation;
 
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 public class YAKFontRenderer extends FontRenderer {
-    public YAKFontRenderer(Minecraft mc) {
-        super(mc.gameSettings, new ResourceLocation("textures/font/yak.png"), mc.renderEngine, false);
+    public YAKFontRenderer(Minecraft mc,File file) throws IOException {
+        super(mc.gameSettings, ClientUtil.loadImageFromFile(file), mc.renderEngine, false);
 
         //read texture
         BufferedImage bufferedimage;
         try {
-            bufferedimage = TextureUtil.readBufferedImage(this.getResourceInputStream(this.locationFontTexture));
+            InputStream inputStream=new FileInputStream(file);
+            bufferedimage = ImageIO.read(inputStream);
         } catch (IOException var17) {
             throw new RuntimeException(var17);
         }
