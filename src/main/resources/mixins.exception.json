@@ -4,8 +4,12 @@
   "refmap": "mixins.exception.refmap.json",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "MixinMinecraft",
-    "MixinGuiSpectator",
-    "MixinGuiIngame"
+    "client.MixinMinecraft",
+    "client.MixinNetworkManager",
+    "entity.MixinEntity",
+    "entity.MixinEntityPlayerSP",
+    "render.MixinEntityRenderer",
+    "render.MixinGuiSpectator",
+    "render.MixinGuiIngame"
   ]
 }

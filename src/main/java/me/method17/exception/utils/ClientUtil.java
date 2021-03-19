@@ -13,7 +13,7 @@ import java.util.Base64;
 
 public class ClientUtil {
     public static void displayChatMessage(final String message) {
-        Minecraft mc=Minecraft.getMinecraft();
+        Minecraft mc = Minecraft.getMinecraft();
 
         final JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("text", message);
@@ -25,17 +25,17 @@ public class ClientUtil {
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(Base64.getDecoder().decode(image));
         BufferedImage bufferedImage = ImageIO.read(byteArrayInputStream);
         byteArrayInputStream.close();
-        ResourceLocation rl=new ResourceLocation("exception_resource_"+MathUtil.randDouble(-100,100));
+        ResourceLocation rl = new ResourceLocation("exception_resource_" + MathUtil.randDouble(-100, 100));
         Minecraft.getMinecraft().getTextureManager()
                 .loadTexture(rl, new DynamicTexture(bufferedImage));
         return rl;
     }
 
     public static ResourceLocation loadImageFromFile(File file) throws IOException {
-        InputStream inputStream=new FileInputStream(file);
+        InputStream inputStream = new FileInputStream(file);
         BufferedImage bufferedImage = ImageIO.read(inputStream);
         inputStream.close();
-        ResourceLocation rl=new ResourceLocation("exception_resource_"+MathUtil.randDouble(-100,100));
+        ResourceLocation rl = new ResourceLocation("exception_resource_" + MathUtil.randDouble(-100, 100));
         Minecraft.getMinecraft().getTextureManager()
                 .loadTexture(rl, new DynamicTexture(bufferedImage));
         return rl;

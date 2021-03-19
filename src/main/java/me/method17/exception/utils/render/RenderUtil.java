@@ -16,49 +16,49 @@ import java.io.File;
 public class RenderUtil {
     public static FontRenderer YAK_FONT_RENDERER;
 
-    public static void init(){
-        Minecraft mc=Minecraft.getMinecraft();
+    public static void init() {
+        Minecraft mc = Minecraft.getMinecraft();
 //        YAK_FONT_RENDERER=Minecraft.getMinecraft().fontRendererObj;
         try {
-            YAK_FONT_RENDERER=new YAKFontRenderer(mc,new File("./Exception/font.png"));
+            YAK_FONT_RENDERER = new CustomFontRenderer(mc, new File("./Exception/font.png"));
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public static int drawText(String text,int width,int height,float size,boolean isMCFont){
+    public static int drawText(String text, int width, int height, float size, boolean isMCFont) {
         GlStateManager.pushMatrix();
         //set scale
-        GlStateManager.scale(size,size,size);
-        FontRenderer fontRenderer=YAK_FONT_RENDERER;
-        if(isMCFont){
-            fontRenderer=Minecraft.getMinecraft().fontRendererObj;
+        GlStateManager.scale(size, size, size);
+        FontRenderer fontRenderer = YAK_FONT_RENDERER;
+        if (isMCFont) {
+            fontRenderer = Minecraft.getMinecraft().fontRendererObj;
         }
-        int length=fontRenderer.drawString(text,Math.round(width/size),Math.round(height/size),0);
+        int length = fontRenderer.drawString(text, Math.round(width / size), Math.round(height / size), 0);
         GlStateManager.popMatrix();
         return length;
     }
 
-    public static void roundRect(int x1, int y1, int x2, int y2,int radius,int fill,int sections){
+    public static void roundRect(int x1, int y1, int x2, int y2, int radius, int fill, int sections) {
         //circle part
-        drawFilledCircle(x1+radius,y1+radius,radius,fill,sections);
-        drawFilledCircle(x2-radius,y1+radius,radius,fill,sections);
-        drawFilledCircle(x1+radius,y2-radius,radius,fill,sections);
-        drawFilledCircle(x2-radius,y2-radius,radius,fill,sections);
+        drawFilledCircle(x1 + radius, y1 + radius, radius, fill, sections);
+        drawFilledCircle(x2 - radius, y1 + radius, radius, fill, sections);
+        drawFilledCircle(x1 + radius, y2 - radius, radius, fill, sections);
+        drawFilledCircle(x2 - radius, y2 - radius, radius, fill, sections);
         //rect part
-        rect(x1+radius, y1+radius, x2-radius, y2-radius, fill);
-        rect(x1+radius, y1, x2-radius, y1+radius, fill);
-        rect(x1+radius, y2-radius, x2-radius, y2, fill);
-        rect(x1, y1+radius, x1+radius, y2-radius, fill);
-        rect(x2-radius, y1+radius, x2, y2-radius, fill);
+        rect(x1 + radius, y1 + radius, x2 - radius, y2 - radius, fill);
+        rect(x1 + radius, y1, x2 - radius, y1 + radius, fill);
+        rect(x1 + radius, y2 - radius, x2 - radius, y2, fill);
+        rect(x1, y1 + radius, x1 + radius, y2 - radius, fill);
+        rect(x2 - radius, y1 + radius, x2, y2 - radius, fill);
     }
 
 
-    public static void roundRect(Area area, int radius, int fill, int sections){
-        roundRect(area.x1,area.y1,area.x2,area.y2,radius,fill,sections);
+    public static void roundRect(Area area, int radius, int fill, int sections) {
+        roundRect(area.x1, area.y1, area.x2, area.y2, radius, fill, sections);
     }
 
-    public static void drawFilledCircle(int xx, int yy, int radius, int fill,int sections) {
+    public static void drawFilledCircle(int xx, int yy, int radius, int fill, int sections) {
         double dAngle = 2 * Math.PI / sections;
         float x, y;
 
@@ -120,7 +120,7 @@ public class RenderUtil {
     }
 
     public static void rect(Area area, int fill) {
-        rect(area.x1,area.y1,area.x2,area.y2,fill);
+        rect(area.x1, area.y1, area.x2, area.y2, fill);
     }
 
     public static void drawImage(ResourceLocation image, int x, int y, int width, int height) {
@@ -142,9 +142,9 @@ public class RenderUtil {
         Tessellator tessellator = Tessellator.getInstance();
         WorldRenderer worldrenderer = tessellator.getWorldRenderer();
         worldrenderer.begin(7, new VertexFormat(DefaultVertexFormats.POSITION_TEX));
-        worldrenderer.pos(x, y + height, 0.0D).tex(u * f, (v + (float) height) * f1).endVertex();
-        worldrenderer.pos(x + width, y + height, 0.0D).tex((u + (float) width) * f, (v + (float) height) * f1).endVertex();
-        worldrenderer.pos(x + width, y, 0.0D).tex((u + (float) width) * f, v * f1).endVertex();
+        worldrenderer.pos(x, y + height, 0.0D).tex(u * f, (v + height) * f1).endVertex();
+        worldrenderer.pos(x + width, y + height, 0.0D).tex((u + width) * f, (v + height) * f1).endVertex();
+        worldrenderer.pos(x + width, y, 0.0D).tex((u + width) * f, v * f1).endVertex();
         worldrenderer.pos(x, y, 0.0D).tex(u * f, v * f1).endVertex();
         tessellator.draw();
     }

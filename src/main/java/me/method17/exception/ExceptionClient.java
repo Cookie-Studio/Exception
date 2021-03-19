@@ -1,6 +1,7 @@
 package me.method17.exception;
 
-import me.method17.exception.manager.FileManager;
+import me.method17.exception.feature.FileManager;
+import me.method17.exception.feature.module.ModuleManager;
 import me.method17.exception.utils.render.RenderUtil;
 
 public class ExceptionClient {
@@ -12,19 +13,20 @@ public class ExceptionClient {
 
     private static ExceptionClient instance;
 
-    public ExceptionClient(){
-        instance=this;
-        System.out.println("Loading "+CLIENT_NAME+" b"+CLIENT_VERSION+"...");
+    public ExceptionClient() {
+        instance = this;
+        System.out.println("Loading " + CLIENT_NAME + " b" + CLIENT_VERSION + "...");
     }
 
-    public void start(){
-        System.out.println("Starting "+CLIENT_NAME+" b"+CLIENT_VERSION+"...");
+    public static ExceptionClient getInstance() {
+        return instance;
+    }
+
+    public void start() {
+        System.out.println("Starting " + CLIENT_NAME + " b" + CLIENT_VERSION + "...");
         FileManager.init();
         RenderUtil.init();
+        ModuleManager.init();
         System.out.println("Client is OK!");
-    }
-
-    public static ExceptionClient getInstance(){
-        return instance;
     }
 }
